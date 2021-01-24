@@ -1,7 +1,10 @@
 package model.menu;
 
 
+import model.shop.Category;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Menu {
@@ -10,7 +13,7 @@ public class Menu {
 
     private Map<String, MenuElement> categories;
 
-    public Menu() {
+    public Menu(List<Category> categoryList) {
         elements = new HashMap<String, MenuElement>();
         categories = new HashMap<String, MenuElement>();
 
@@ -19,9 +22,9 @@ public class Menu {
         elements.put("categories", new MenuElement("Категории", "/categories"));
         elements.put("cart", new MenuElement("Корзина", "/cart"));
 
-        categories.put("cat1", new MenuElement("Категория1", "/cat1"));
-        categories.put("cat2", new MenuElement("Категория2", "/cat2"));
-        categories.put("cat3", new MenuElement("Категория3", "/cat3"));
+        for (Category category : categoryList) {
+            categories.put(category.getName(), new MenuElement(category.getCaption(), "/catalog?cat=" + category.getId()));
+        }
     }
 
     public void setSelection(String key) {
