@@ -1,6 +1,7 @@
 package model.shop;
 
 import db.DBConnection;
+import exception.ProductNotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
+
+    public static Product findById(int productId) throws SQLException{
+        String query = "SELECT * FROM PRODUCT WHERE ID_PRODUCT = ?";
+        PreparedStatement statement = DBConnection.getInstance().createPrepareStatement(query);
+        statement.setInt(1, productId);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            int id  = result.getInt("id_product");
+            String name = result.getString("name");
+            String description = result.getString("description");
+            String shortDescription = result.getString("short_description");
+            return new Product(id, name, description, shortDescription);
+        }
+
+        throw new ProductNotFoundException("Product not found");
+    }
 
     public static List<Product> findAllByCategoryId(int categoryId) throws SQLException {
         List <Product> productList = new ArrayList<Product>();

@@ -14,7 +14,7 @@
 
     <c:forEach items="${productList}" var="product">
         <div>
-            <a href="/product/${product.getId()}">${product.getName()}</a>
+            <a href="/product?productId=${product.getId()}">${product.getName()}</a>
             <p>
                 ${product.getShortDescription()}
             </p>
