@@ -31,11 +31,13 @@ public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Menu menu = new Menu();
+
+        Menu menu = MenuService.getInstance().createMenu();
         menu.setSelection("main");
 
         request.setAttribute("content", "content/index.jsp");
         request.setAttribute("menu", menu);
         request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
+
     }
 }
