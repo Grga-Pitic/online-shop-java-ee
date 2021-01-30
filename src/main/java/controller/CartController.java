@@ -24,14 +24,16 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         HttpSession session = request.getSession();
 
         Cart cart = CartService.getCart(session);
 
         try {
             int productId = Integer.parseInt(request.getParameter("id"));
+            String action = request.getParameter("action");
 
-            cart.putOne(productId);
+            CartService.doAction(cart, productId, action);
 
             JsonService.sendJson(response.getWriter(), cart);
 

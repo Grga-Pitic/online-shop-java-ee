@@ -6,8 +6,8 @@ import exception.ProductNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Statement;
+import java.util.*;
 
 public class Product {
 
@@ -50,6 +50,39 @@ public class Product {
         }
 
         return productList;
+    }
+
+    public static Map<Integer, Product> findByIdCollection(Collection<Integer> idCollection) throws SQLException{
+
+        Map<Integer, Product> products = new HashMap<Integer, Product>();
+        if (idCollection.isEmpty()) {
+            return products;
+        }
+
+        String query = "SELECT * FROM PRODUCT WHERE ID_PRODUCT in ";
+        Statement statement = DBConnection.getInstance().getStatement();
+
+        String preparedIds = "";
+        for (Integer id : idCollection) {
+            preparedIds += id + ", ";
+        }
+        preparedIds = preparedIds.substring(0, preparedIds.length() - 2);
+        query += "(" + preparedIds + ")";
+
+
+        statement.executeQuery(query);
+
+        ResultSet result = statement.executeQuery(query);
+
+        while (result.next()) {
+            int id  = result.getInt("id_product");
+            String name = result.getString("name");
+            String description = result.getString("description");
+            String shortDescription = result.getString("short_description");
+            products.put(id, new Product(id, name, description, shortDescription));
+        }
+
+        return products;
     }
 
     private int id;

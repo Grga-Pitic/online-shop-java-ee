@@ -1,9 +1,11 @@
 package model.shop;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Cart {
 
@@ -38,6 +40,15 @@ public class Cart {
 
         count--;
         content.put(productId, count);
+    }
+
+    public void clear() {
+        content.clear();
+    }
+
+    @JsonIgnore
+    public Set<Integer> getProductIdSet() {
+        return content.keySet();
     }
 
     public void removeAll(int productId) {

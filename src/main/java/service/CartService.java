@@ -1,22 +1,37 @@
 package service;
 
+import exception.CartActionNotFound;
 import model.shop.Cart;
+import model.shop.Product;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.Map;
 
 public class CartService {
 
     public static void doAction(Cart cart, int productId, String action) {
         switch (action) {
-            case "put":
+            case "putOne":
+                cart.putOne(productId);
                 break;
             case "removeOne":
+                cart.removeOne(productId);
                 break;
             case "removeAll":
+                cart.removeAll(productId);
                 break;
+            case "clear":
+                cart.clear();
             default:
-                break;
+                throw new CartActionNotFound("There's no action: " + action);
         }
+    }
+
+    public static Map<Integer, Product> getProductsFromCart(Cart cart) throws SQLException {
+
+        Map<Integer, Product> products = Product.findByIdCollection(cart.getProductIdSet());
+        return products;
     }
 
     public static Cart getCart(HttpSession session) {
