@@ -19,13 +19,14 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Menu menu = MenuService.getInstance().createMenu();
         menu.setSelection("categories");
+        request.setAttribute("menu", menu);
+
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
 
             Product product = Product.findById(productId);
 
             request.setAttribute("content", "content/product.jsp");
-            request.setAttribute("menu", menu);
             request.setAttribute("product", product);
 
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
@@ -33,13 +34,13 @@ public class ProductController extends HttpServlet {
             response.setStatus(500);
             request.setAttribute("content", "error/error.jsp");
             request.setAttribute("errorMessage", "Incorrect product id. Must be a number");
-            request.setAttribute("menu", menu);
+
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
         } catch (SQLException e) {
             response.setStatus(500);
             request.setAttribute("content", "error/error.jsp");
             request.setAttribute("errorMessage", e.getMessage());
-            request.setAttribute("menu", menu);
+
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
         }
 

@@ -21,6 +21,7 @@ public class CatalogController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Menu menu = MenuService.getInstance().createMenu();
+        request.setAttribute("menu", menu);
         menu.setSelection("categories");
 
         try {
@@ -30,7 +31,6 @@ public class CatalogController extends HttpServlet {
             List<Product> productList = Product.findAllByCategoryId(categoryId);
 
             request.setAttribute("content", "content/catalog.jsp");
-            request.setAttribute("menu", menu);
             request.setAttribute("category", category);
             request.setAttribute("productList", productList);
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
@@ -38,19 +38,16 @@ public class CatalogController extends HttpServlet {
             response.setStatus(500);
             request.setAttribute("content", "error/error.jsp");
             request.setAttribute("errorMessage", e.getMessage());
-            request.setAttribute("menu", menu);
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
         } catch (CategoryNotFoundException e ) {
             response.setStatus(404);
             request.setAttribute("content", "error/error.jsp");
             request.setAttribute("errorMessage", e.getMessage());
-            request.setAttribute("menu", menu);
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             response.setStatus(500);
             request.setAttribute("content", "error/error.jsp");
             request.setAttribute("errorMessage", "Incorrect category id. Must be a number");
-            request.setAttribute("menu", menu);
             request.getRequestDispatcher("/layouts/main.jsp").forward(request, response);
         }
     }
