@@ -19,7 +19,8 @@
             <p>
                 ${product.getShortDescription()}
             </p>
-            <div><input type="button" class="btn btn-primary add-to-cart-button" value="Добавить в корзину"></div>
+            <div><input type="button" class="btn btn-primary add-to-cart-button" data-product-id="${product.getId()}"
+                        value="Добавить в корзину"></div>
             <hr>
         </div>
     </c:forEach>

@@ -10,7 +10,7 @@ import java.util.Set;
 public class Cart {
 
     // key is productId, value is count
-    @JsonProperty("Content")
+    @JsonProperty("content")
     private Map<Integer, Integer> content;
 
     public Cart() {
@@ -40,6 +40,10 @@ public class Cart {
 
         count--;
         content.put(productId, count);
+    }
+
+    public int getCountById(int id) {
+        return content.get(id);
     }
 
     public void clear() {
