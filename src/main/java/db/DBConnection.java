@@ -32,7 +32,7 @@ public class DBConnection {
     }
 
     public PreparedStatement createPrepareStatement(String query) throws SQLException {
-        return connection.prepareStatement(query);
+        return connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
     }
 
     public ResultSet executeQuery(String query) throws SQLException {

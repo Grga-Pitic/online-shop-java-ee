@@ -12,6 +12,10 @@
 
     <hr>
 
+    <c:if test="${products.isEmpty()}">
+        <p>Корзина пуста</p>
+    </c:if>
+
     <c:forEach items="${products.keySet()}" var="id">
         <div class="product">
             <div><a href="/product?productId=${products.get(id).getId()}">${products.get(id).getName()}</a></div>
@@ -25,4 +29,12 @@
             <hr>
         </div>
     </c:forEach>
+
+    <c:if test="${!products.isEmpty()}">
+        <form action="/order" method="post">
+            <input type="text" class="form-control" name="name" placeholder="Ваше имя">
+            <input type="text" class="form-control" name="phone" placeholder="Телефон">
+            <button class="btn btn-primary">Оформить заказ</button>
+        </form>
+    </c:if>
 </div>
