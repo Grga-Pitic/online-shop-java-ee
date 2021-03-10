@@ -43,7 +43,12 @@ public class Cart {
     }
 
     public int getCountById(int id) {
-        return content.get(id);
+        try {
+            return content.get(id);
+        } catch (NullPointerException e) {
+            return 0;
+        }
+
     }
 
     public void clear() {
